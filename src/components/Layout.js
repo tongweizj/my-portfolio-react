@@ -15,9 +15,10 @@ function Layout({ children }) {
       <Box bg="gray.100" p={4}>
       <Flex as="nav" gap={4}>
   <RouterLink to="/">Home</RouterLink>
+  <RouterLink to="/project">Project</RouterLink>
+  <RouterLink to="/services">Services</RouterLink>
   <RouterLink to="/about">About</RouterLink>
   <RouterLink to="/contact">Contact</RouterLink>
-  <RouterLink to="/project">Project</RouterLink>
 </Flex>
       </Box>
 
