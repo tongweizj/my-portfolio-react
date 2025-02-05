@@ -41,10 +41,10 @@ function About() {
               grow both personally and professionally.
             </p>
 
-            {/* 简历链接 */}
+            {/* 简历链接  download="WeiTong_Resume.pdf" */}
             <a
-              href="/resume.pdf"
-              download="WeiTong_Resume.pdf"
+              href="/resume.pdf"  
+              target="_blank"
               style={styles.resumeLink}
             >
               Download My Resume (PDF)
