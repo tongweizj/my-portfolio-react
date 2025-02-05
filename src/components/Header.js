@@ -1,144 +1,98 @@
-import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import {
-  faGithub,
-  faLinkedin,
-  faMedium,
-  faStackOverflow,
-} from "@fortawesome/free-brands-svg-icons";
-import { Box, HStack } from "@chakra-ui/react";
-
-const socials = [
-  {
-    icon: faEnvelope,
-    url: "mailto: hello@example.com",
-  },
-  {
-    icon: faGithub,
-    url: "https://github.com",
-  },
-  {
-    icon: faLinkedin,
-    url: "https://www.linkedin.com",
-  },
-  {
-    icon: faMedium,
-    url: "https://medium.com",
-  },
-  {
-    icon: faStackOverflow,
-    url: "https://stackoverflow.com",
-  },
-];
+/*
+  File name: header.js
+  Student’s Name: Wei Tong
+  StudentID: 301034450
+  Date: 20250201
+*/
+import React from "react";
 
 const Header = () => {
-  // Handle clicks on buttons within the header
-  const handleClick = (anchor) => () => {
-    const id = `${anchor}-section`;
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
-  // Handle header show/hide animation depending on the scroll direction
-  const headerRef = useRef(null);
-
-  useEffect(() => {
-    let prevScrollPos = window.scrollY;
-
-    // Handle scroll events
-    const handleScroll = () => {
-      const currScrollPos = window.scrollY;
-      const currHeaderElement = headerRef.current;
-
-      if (!currHeaderElement)
-        return;
-    
-      if (prevScrollPos > currScrollPos)
-        currHeaderElement.style.transform = "translateY(0)";
-      else
-        currHeaderElement.style.transform = "translateY(-200px)";
-      
-      prevScrollPos = currScrollPos;
-    };
-
-    // Set up listeners for the scroll event
-    window.addEventListener("scroll", handleScroll);
-
-    // Remove listeners for the scroll event
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <Box
-      position="fixed"
-      top={0}
-      left={0}
-      right={0}
-      translateY={0}
-      transitionProperty="transform"
-      transitionDuration=".3s"
-      transitionTimingFunction="ease-in-out"
-      backgroundColor="#18181b"
-      ref={headerRef}
-    >
-      <Box color="white" maxWidth="1280px" margin="0 auto">
-        <HStack
-          px={16}
-          py={4}
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/project">Project</Link>
-          </li>
-          <li>
-            <Link to="/project">Project</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
-      </nav>
-          <nav>
-            {/* Add social media links based on the `socials` data */}
-            <HStack spacing={10}>
-              {socials.map(({icon, url}) => (
-                <a key={url} href={url} icon={icon} target="_blank" rel="noopener noreferrer">
-                  <FontAwesomeIcon key={url} icon={icon} size="2x"/>
-                </a>
-              ))}
-            </HStack>
-            {/* Add social media links based on the `socials` data */}
-          </nav>
-          <nav>
-            <HStack spacing={8}>
-              {/* Add links to Projects and Contact me section */}
-              <a href="#projects" onClick={handleClick("projects")}>Projects</a>
-              <a href="#contact" onClick={handleClick("contactme")}>Contact Me</a>
-              {/* Add links to Projects and Contact me section */}
-            </HStack>
-          </nav>
-        </HStack>
-      </Box>
-    </Box>
-  );
+    <>
+           {/* Logo */}
+           <div style={styles.logo}>
+          <span style={styles.logoLetter}>M</span>
+          <span style={styles.logoLetter}>A</span>
+          <span style={styles.logoLetter}>X</span>
+        </div>
+
+        {/* Navigation */}
+        <nav style={styles.nav}>
+          <ul style={styles.navList}>
+            <li style={styles.navItem}>
+              <a href="/">Home</a>
+            </li>
+            <li style={styles.navItem}>
+              <a href="/projects">Projects</a>
+            </li>
+            <li style={styles.navItem}>
+              <a href="/services">Services</a>
+            </li>
+            <li style={styles.navItem}>
+              <a href="/about">About</a>
+            </li>
+            <li style={styles.navItem}>
+              <a href="/contact">Contact</a>
+            </li>
+          </ul>
+        </nav>
+        </>
+  )
 };
 
 export default Header;
+// 内联样式
+const styles = {
+  header: {
+    backgroundColor: "#1E3A8A", // 时髦的深蓝色
+    color: "white",
+    padding: "1rem",
+    display: "flex", // 使用 Flexbox 布局
+    justifyContent: "space-between", // Logo 在左，Nav 在右
+    alignItems: "center", // 垂直居中
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // 阴影
+  },
+  logo: {
+    display: "flex",
+    gap: "4px", // 字母之间的间距
+    fontSize: "2rem",
+    fontWeight: "bold",
+  },
+  logoLetter: {
+    display: "inline-block",
+    padding: "0.5rem",
+    backgroundColor: "#2563EB", // 亮蓝色
+    borderRadius: "8px", // 圆角
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", // 阴影
+    transition: "transform 0.2s ease-in-out", // 过渡动画
+    ":hover": {
+      transform: "scale(1.1)", // 悬停时放大
+    },
+  },
+  nav: {
+    display: "flex",
+    alignItems: "center",
+  },
+  navList: {
+    listStyle: "none",
+    display: "flex",
+    gap: "1.5rem", // 导航项之间的间距
+    margin: 0,
+    padding: 0,
+  },
+  navItem: {
+    margin: 0,
+  },
+  navLink: {
+    color: "white",
+    textDecoration: "none",
+    fontSize: "1.1rem",
+    padding: "0.5rem 1rem",
+    borderRadius: "8px", // 圆角
+    transition: "background-color 0.2s ease-in-out, transform 0.2s ease-in-out", // 过渡动画
+    ":hover": {
+      backgroundColor: "#2563EB", // 悬停时背景色
+      transform: "translateY(-2px)", // 悬停时上移
+    },
+  },
+};

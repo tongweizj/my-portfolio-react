@@ -1,24 +1,27 @@
+/*
+  File name: footer.js
+  Student’s Name: Wei Tong
+  StudentID: 301034450
+  Date: 20250201
+*/
 import React from "react";
-import { Box, Flex } from "@chakra-ui/react";
 
-const Footer = () => {
+function Footer() {
   return (
-    <Box backgroundColor="#18181b">
-      <footer>
-        <Flex
-          margin="0 auto"
-          px={12}
-          color="white"
-          justifyContent="center"
-          alignItems="center"
-          maxWidth="1024px"
-          height={16}
-        >
-          <p>Pete • © 2022</p>
-        </Flex>
-      </footer>
-    </Box>
+    <footer style={styles.footer}>
+      <p>&copy; 2025 Wei Tong's Portfolio. All rights reserved.</p>
+    </footer>
   );
-};
+}
 
 export default Footer;
+
+// 内联样式
+const styles = {
+  footer: {
+    backgroundColor: "#2d3748",
+    color: "white",
+    textAlign: "center",
+    padding: "1rem",
+  },
+};

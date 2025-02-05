@@ -1,6 +1,12 @@
+/*
+  File name: index.js
+  Student’s Name: Wei Tong
+  StudentID: 301034450
+  Date: 20250201
+*/
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './asset/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

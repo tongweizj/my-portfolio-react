@@ -2,18 +2,29 @@
 
 ## TODO
 
+- [x] 确定使用哪个css framwork
+- [x] 制作页面框架，定下高宽
+
 Pages
 
-- [] Home page
-- [] About Me page 
+- [x] Home page
+- [x] About Me page 
 - [] Projects page 
 - [] Services page
 - [] Contact Me
 
 Compnment
 - [ ] appropriate content
-- [ ] Navigation Bar 
-- [ ] Custom Logo
+- [x] Navigation Bar 
+- [x] Custom Logo
+
+deploy
+- [x] github 
+https://github.com/tongweizj/my-portfolio-react
+
+- [x] netlify
+https://frolicking-cobbler-f22a45.netlify.app/
+
 
 ## TAsk
 
