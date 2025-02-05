@@ -5,7 +5,7 @@
   Date: 20250201
 */
 import React from "react";
-
+import { Link } from "react-router-dom"; 
 const Header = () => {
   return (
     <>
@@ -19,21 +19,21 @@ const Header = () => {
         {/* Navigation */}
         <nav style={styles.nav}>
           <ul style={styles.navList}>
-            <li style={styles.navItem}>
+            <Link to="/" style={styles.navItem}>
               <a href="/">Home</a>
-            </li>
-            <li style={styles.navItem}>
+            </Link>
+            <Link to="/projects" style={styles.navItem}>
               <a href="/projects">Projects</a>
-            </li>
-            <li style={styles.navItem}>
+            </Link>
+            <Link to="/services" style={styles.navItem}>
               <a href="/services">Services</a>
-            </li>
-            <li style={styles.navItem}>
+            </Link>
+            <Link to="/about" style={styles.navItem}>
               <a href="/about">About</a>
-            </li>
-            <li style={styles.navItem}>
+            </Link>
+            <Link to="/contact" style={styles.navItem}>
               <a href="/contact">Contact</a>
-            </li>
+            </Link>
           </ul>
         </nav>
         </>
