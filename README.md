@@ -1,5 +1,13 @@
 # My Portfolio React app
 
+deploy
+- github 
+https://github.com/tongweizj/my-portfolio-react
+
+- netlify
+https://frolicking-cobbler-f22a45.netlify.app/
+
+
 ## TODO
 
 - [x] 确定使用哪个css framwork
@@ -9,22 +17,14 @@ Pages
 
 - [x] Home page
 - [x] About Me page 
-- [] Projects page 
-- [] Services page
-- [] Contact Me
+- [x] Projects page 
+- [x] Services page
+- [x] Contact Me
 
 Compnment
-- [ ] appropriate content
+- [x] appropriate content
 - [x] Navigation Bar 
 - [x] Custom Logo
-
-deploy
-- [x] github 
-https://github.com/tongweizj/my-portfolio-react
-
-- [x] netlify
-https://frolicking-cobbler-f22a45.netlify.app/
-
 
 ## TAsk
 

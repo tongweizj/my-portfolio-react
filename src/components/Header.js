@@ -5,38 +5,40 @@
   Date: 20250201
 */
 import React from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <>
-           {/* Logo */}
-           <div style={styles.logo}>
+      {/* Logo */}
+      <div style={styles.logo}>
+        
           <span style={styles.logoLetter}>M</span>
           <span style={styles.logoLetter}>A</span>
           <span style={styles.logoLetter}>X</span>
-        </div>
+     
+      </div>
 
-        {/* Navigation */}
-        <nav style={styles.nav}>
-          <ul style={styles.navList}>
-            <Link to="/" style={styles.navItem}>
-              <a href="/">Home</a>
-            </Link>
-            <Link to="/projects" style={styles.navItem}>
-              <a href="/projects">Projects</a>
-            </Link>
-            <Link to="/services" style={styles.navItem}>
-              <a href="/services">Services</a>
-            </Link>
-            <Link to="/about" style={styles.navItem}>
-              <a href="/about">About</a>
-            </Link>
-            <Link to="/contact" style={styles.navItem}>
-              <a href="/contact">Contact</a>
-            </Link>
-          </ul>
-        </nav>
-        </>
+      {/* Navigation */}
+      <nav style={styles.nav}>
+        <ul style={styles.navList}>
+          <Link to="/" style={styles.navItem}>
+            <a href="/">Home</a>
+          </Link>
+          <Link to="/projects" style={styles.navItem}>
+            <a href="/projects">Projects</a>
+          </Link>
+          <Link to="/services" style={styles.navItem}>
+            <a href="/services">Services</a>
+          </Link>
+          <Link to="/about" style={styles.navItem}>
+            <a href="/about">About</a>
+          </Link>
+          <Link to="/contact" style={styles.navItem}>
+            <a href="/contact">Contact</a>
+          </Link>
+        </ul>
+      </nav>
+    </>
   )
 };
 
