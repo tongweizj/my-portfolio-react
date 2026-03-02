@@ -10,21 +10,24 @@ https://frolicking-cobbler-f22a45.netlify.app/
 
 ## TODO
 
-- [x] 确定使用哪个css framwork
-- [x] 制作页面框架，定下高宽
+Public Pages
+- [] Home page
+  - 显示用户的profile
+  - 显示推荐文章
+- [] 文章支持slug   
+  - [] About Me page 
+  - [] Projects page 
+  - [] Services page
+  - [] Contact Me
 
-Pages
+Admin Pages
+- [] 个人profile
+  - 增加profile 字段，支持markdown编辑
+- [] post 编辑功能，
+  - 增加推荐字段
+  - 增加 slug
 
-- [x] Home page
-- [x] About Me page 
-- [x] Projects page 
-- [x] Services page
-- [x] Contact Me
 
-Compnment
-- [x] appropriate content
-- [x] Navigation Bar 
-- [x] Custom Logo
 
 ## TAsk
 
