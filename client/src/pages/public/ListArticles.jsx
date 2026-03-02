@@ -1,0 +1,73 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
+import { useNavigate } from 'react-router-dom';
+
+function ListArticles() {
+  const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [showLoading, setShowLoading] = useState(true);
+  const apiUrl = "api/api/articles"; // 建议检查路径是否正确
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(apiUrl);
+        setData(result.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setShowLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const showDetail = (id) => {
+    navigate('/post/' + id);
+  };
+
+  return (
+    <div>
+      <header className="mb-5">
+        <h1 className="fw-bold mb-3">writing</h1>
+        <p className="text-secondary">
+          自 2015 年以来，我一直在撰写关于软件开发、设计和科技的文章。以下是按照时间倒序排列的所有文章。
+        </p>
+      </header>
+
+      {showLoading ? (
+        // 居中显示加载动画
+        <div className="text-center my-5">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : data.length > 0 ? (
+        <main>
+          {/* 使用 list-group-flush 移除外边框，适合文章列表 */}
+          <div className="list-group list-group-flush">
+            {data.map((item) => (
+              <a
+                key={item._id} // 使用真实的 ID 作为 key 比 idx 更好
+                href="#!"
+                className="list-group-item list-group-item-action border-0 px-0 py-3"
+                style={{ fontSize: '1.1rem' }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  showDetail(item._id);
+                }}
+              >
+                {item.title}
+              </a>
+            ))}
+          </div>
+        </main>
+      ) : (
+        <p className="text-muted">No articles found.</p>
+      )}
+    </div>
+  );
+}
+
+export default ListArticles;

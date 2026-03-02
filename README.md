@@ -87,3 +87,71 @@ and any **JavaScript functions.**
 
 2. push your site to a cloud host
 You must deploy your site to your Cloud Server using **git**
+
+
+## URL
+
+未注册用户可访问页面
+
+3. 首页,`/`
+展示精选内容、最新动态或欢迎语
+
+4. 文章列表页,`/posts`,
+所有的博文列表（通常带分页）
+
+5. 文章详情页,`/posts/:id` 或 `/p/:slug`
+使用文章 ID 或 标题别名（Slug）访问具体内容
+
+6. 关于我,`/about`,
+个人介绍、联系方式等静态信息
+
+作者可访问页面
+1. 登录,`/login`
+,用户身份验证入口
+
+2. 注册,`/register`
+,新用户创建账号
+
+1. 我的文章列表,`/admin/posts`,
+作者查看自己发布的所有文章，带编辑/删除按钮
+
+2. 添加文章,`/admin/post/create`
+,创作新内容的空白编辑器页面
+
+3. 编辑文章,`/admin/posts/edit/:id`
+,根据文章 ID 加载现有内容进行修改
+
+4. 我的 Profile,`/admin/profile`
+,个人资料设置（修改头像、简介、密码等）
+
+## 项目结构
+
+```Plaintext
+src/
+├── assets/             # 静态资源：图片、Icons、全局 CSS
+├── components/         # 公用组件 (无状态或通用)
+│   ├── common/         # 按钮、输入框、Loading 加载动画
+│   ├── layout/         # 布局组件：Navbar, Footer, AdminSidebar
+│   └── auth/           # 登录保护高阶组件 (ProtectedRoute)
+├── hooks/              # 自定义 Hooks (例如: useAuth, useFetch)
+├── services/           # API 请求逻辑 (Axios 拦截器等)
+│   ├── articleService.js
+│   └── authService.js
+├── pages/              # 页面级组件 (按 URL 结构划分)
+│   ├── public/         # --- 前台页面 ---
+│   │   ├── Home.jsx           (首页)
+│   │   ├── Posts.jsx       (文章列表)
+│   │   ├── PostsDetail.jsx  (文章详情)
+│   │   ├── About.jsx          (关于我)
+│   ├── auth/
+│   │   ├── Login.jsx          (登录)
+│   │   └── Register.jsx       (注册)
+│   └── admin/          # --- 作者后台页面 ---
+│       ├── Dashboard.jsx      (后台概览/我的文章列表)
+│       ├── Posts.jsx       (文章列表)
+│       ├── PostEditor.jsx  (添加/编辑文章共享此组件)
+│       └── Profile.jsx        (个人资料)
+├── utils/              # 工具函数 (格式化日期等)
+├── App.jsx             # 路由配置中心
+└── main.jsx            # 项目入口
+```
