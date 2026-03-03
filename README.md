@@ -25,9 +25,8 @@ Admin Pages
 - 博客文章编辑功能，支持markdown
 
 ## v0.2
-
-- 代码重构
-
+代码重构
+详情请看 [v0.2](doc/v_02.md)
 ## v0.3
 Public Pages
 - [] 文章支持slug   
