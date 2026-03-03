@@ -5,9 +5,9 @@ import { Spinner } from 'react-bootstrap';
 
 // 这个组件包裹任何需要保护的内容
 const ProtectedRoute = ({ children }) => {
-  const { authname, loading } = useAuth();
+  const { authname, isAuthLoading} = useAuth();
 
-  if (loading) {
+  if (isAuthLoading) {
     return (
       <div className="text-center mt-5">
         <Spinner animation="border" variant="primary" />

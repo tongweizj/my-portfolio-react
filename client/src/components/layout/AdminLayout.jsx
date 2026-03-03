@@ -10,12 +10,11 @@ import axios from 'axios';
 import './admin.css'
 const AdminLayout = ({ children }) => {
     const location = useLocation();
- let navigate = useNavigate();
-    // 导航菜单配置
+    let navigate = useNavigate();
     const menuItems = [
         { name: 'Dashboard', path: '/admin/dashboard', icon: <i className="bi bi-speedometer2"></i> },
         { name: 'Posts', path: '/admin/posts', icon: <i className="bi bi-journal-text"></i> },
-        { name: 'AdminUsers', path: '/admin/users', icon: <i className="bi bi-journal-text"></i> },
+        { name: 'Settings', path: '/admin/setting', icon: <i className="bi bi-journal-text"></i> },
     ];
 
     // 侧边栏折叠状态
@@ -31,7 +30,7 @@ const AdminLayout = ({ children }) => {
     const deleteCookie = async () => {
         try {
             await axios.get('/api/signout');
-            
+
             navigate('/auth/admin/login')
         } catch (e) {
             console.log(e);
@@ -54,7 +53,7 @@ const AdminLayout = ({ children }) => {
                 <div className="container-fluid">
                     {/* 品牌/标题 */}
                     <a className="navbar-brand" href="/admin/dashboard">
-                        <i className="bi bi-layers-half"></i> Student Enrollment System
+                        <i className="bi bi-layers-half"></i> Max Blog
                     </a>
 
                     {/* 右侧导航项 */}
@@ -70,7 +69,7 @@ const AdminLayout = ({ children }) => {
                                 <Dropdown.Item className="text-danger" onClick={deleteCookie}><i className="bi bi-box-arrow-right me-2"></i> Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                      
+
 
                         {/* 移动端菜单切换按钮 */}
                         <button
@@ -93,7 +92,7 @@ const AdminLayout = ({ children }) => {
                     ...(sidebarCollapsed && window.innerWidth <= 768 ? { marginLeft: 0 } : {})
                 }}
             >
-                <div className="sidebar-heading">Admin</div>
+                
 
                 {menuItems.map((item, index) => (
                     <Link
@@ -102,7 +101,7 @@ const AdminLayout = ({ children }) => {
                         className={`sidebar-item ${isActive(item.path) ? 'active' : ''}`}
                     >
                         {item.icon}
-                        <span style={{ marginLeft: '0.75rem' }}>{item.name}</span>
+                        <span>{item.name}</span>
                     </Link>
                 ))}
 
@@ -118,13 +117,6 @@ const AdminLayout = ({ children }) => {
                 }}
             >
                 <Outlet />
-
-                {/* 底部信息 */}
-                <footer className="pt-3">
-                    <div className="text-center text-muted small">
-                        <p>© 2026 Student Management System. All rights reserved.</p>
-                    </div>
-                </footer>
             </div>
         </>
     );

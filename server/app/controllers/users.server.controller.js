@@ -3,7 +3,7 @@ const User = require('mongoose').model('User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
-const jwtExpirySeconds = 300;
+const jwtExpirySeconds = 3600*60*24;
 const jwtKey =config.secretKey;
 //
 //
@@ -180,7 +180,8 @@ exports.welcome = (req, res) => {
 	// Finally, return the welcome message to the user, along with their
 	// username given in the token
 	// use back-quotes here
-	res.send(`${payload.username}`)
+	res.json(payload);
+	
  };
  //
  //sign out function in controller

@@ -18,6 +18,8 @@ const ArticleSchema = new Schema({
     creator: {
         type: Schema.ObjectId,
         ref: 'User'
-    }
+    },
+    slug: { type: String, unique: true },
+    status: { type: String, enum: ['draft', 'published'], default: 'draft' }
 });
 mongoose.model('Article', ArticleSchema);

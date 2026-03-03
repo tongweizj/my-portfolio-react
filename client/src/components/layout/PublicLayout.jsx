@@ -20,7 +20,7 @@ const PublicLayout = () => {
                     </ul>
                 </nav>
                 <Outlet />
-                <footer className="mt-5 pt-5 pb-5 text-secondary border-top border-secondary">
+                <footer className="mt-3 pt-3 pb-5 text-secondary">
                     <p>© 2026 Wei(Max) Tong</p>
                 </footer>
             </div>

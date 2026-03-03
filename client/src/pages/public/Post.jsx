@@ -6,9 +6,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 // this component is used to show a single article
-function ShowArticle(props) {
+function Post(props) {
   let navigate = useNavigate()
-  let {id} = useParams();
+  let { id } = useParams();
   //
   const [data, setData] = useState({});
   const [showLoading, setShowLoading] = useState(true);
@@ -18,8 +18,7 @@ function ShowArticle(props) {
     setShowLoading(false);
     const fetchData = async () => {
       const result = await axios(apiUrl);
-      console.log('results from articles',result.data);
-
+      console.log("result:", result.data.creator.nickName)
       setData(result.data);
       setShowLoading(false);
     };
@@ -27,42 +26,23 @@ function ShowArticle(props) {
     fetchData();
   }, []);
 
-  const editArticle = (id) => {
-    navigate('/editarticle/' + id);
-    
-  };
-
-  const deleteArticle = (id) => {
-    setShowLoading(true);
-    const article = { title: data.title, content: data.content };
-    //
-    axios.delete(apiUrl, article)
-      .then((result) => {
-        setShowLoading(false);
-        navigate('/listarticles')
-      }).catch((error) => setShowLoading(false));
-  };
-
   return (
     <div>
       {showLoading && <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
-      </Spinner> }    
-        <h1>Title: {data.title}</h1>
-        
-        {/* Markdown 渲染区域 */}
-      <main className="markdown-body">
+      </Spinner>}
+      <h1 className="fs-4">{data.title}</h1>
+      <a className="text-secondary mb-6 text-decoration-none" href="/">By {data.creator?.nickName || 'Unknow Author'}</a>
+
+      {/* Markdown 渲染区域 */}
+      <main className="markdown-body mt-4">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
           {data.content}
         </ReactMarkdown>
       </main>
 
-        <p>
-          <Button type="button" variant="primary" onClick={() => { editArticle(data._id) }}>Edit</Button>&nbsp;
-          <Button type="button" variant="danger" onClick={() => { deleteArticle(data._id) }}>Delete</Button>
-        </p>
-\    </div>
+    </div>
   );
 }
 
-export default ShowArticle;
+export default Post;

@@ -6,9 +6,6 @@ import {
   Routes
 } from "react-router-dom";
 
-import './App.css';
-
-
 import ProtectedRoute from './components/common/ProtectedRoute';
 
 // Layout
@@ -17,15 +14,15 @@ import PublicLayout from './components/layout/PublicLayout';
 
 // public
 import Home from './pages/public/Home';
-import ShowArticle from './pages/public/ShowArticle';
+import PostDetail from './pages/public/Post';
 import ListArticles from "./pages/public/ListArticles";
 
 // admin
 import Dashboard from './pages/admin/Dashboard'
 // AdminPost
-import AdminArticles from "./pages/admin/AdminArticles";
-import EditArticle from './pages/admin/EditArticle';
-import CreateArticle from './pages/admin/CreateArticle';
+import PostsList from "./pages/admin/PostsList";
+import PostForm from './pages/admin/PostForm';
+import BlogSetting from './pages/admin/BlogSetting';
 
 // AdminUser
 import List from './pages/admin/List';
@@ -54,7 +51,7 @@ function App() {
             <Route path="login" element={< Login />} />
             <Route path="list" element={< List />} />
             <Route path="writing" element={< ListArticles />} />
-            <Route path="post/:id" element={< ShowArticle />} />
+            <Route path="post/:id" element={< PostDetail />} />
           </Route>
 
           <Route path="/admin" element={
@@ -63,14 +60,17 @@ function App() {
             </ProtectedRoute>
           }>
             <Route path="dashboard" element={< Dashboard />} />
+
+            <Route path="posts" element={< PostsList />} />
+            <Route path="post/create" element={< PostForm />} />
+            <Route path="post/edit/:id" element={< PostForm />} />
+            <Route path="setting" element={< BlogSetting />} />
+            {/* TODO */}
             <Route path="user/create" element={< CreateUser />} />
             <Route path="user/:id" element={< ShowUser />} />
             <Route path="user/edit/:id" element={< EditUser />} />
+            
             <Route path="users" element={< List />} />
-
-            <Route path="posts" element={< AdminArticles />} />
-            <Route path="post/create" element={< CreateArticle />} />
-            <Route path="post/edit/:id" element={< EditArticle />} />
 
           </Route>
         </Routes>

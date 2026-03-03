@@ -4,8 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-//
-import './login.css'
+
 // this component is used to create a new user
 function CreateUser(props) {
   let navigate = useNavigate()

@@ -18,7 +18,8 @@ exports.create = function (req, res) {
     const article = new Article();
     article.title = req.body.title;
     article.content = req.body.content;
-    //article.creator = req.body.username;
+    article.slug = req.body.slug;
+    article.status = req.body.status;
     console.log(req.body)
     //
     //
@@ -51,7 +52,7 @@ exports.create = function (req, res) {
 };
 //
 exports.list = function (req, res) {
-    Article.find().sort('-created').populate('creator', 'firstName lastName fullName').exec((err, articles) => {
+    Article.find().sort('-created').populate('creator', 'username nickName email').exec((err, articles) => {
 if (err) {
         return res.status(400).send({
             message: getErrorMessage(err)
@@ -63,11 +64,11 @@ if (err) {
 };
 //
 exports.articleByID = function (req, res, next, id) {
-    Article.findById(id).populate('creator', 'firstName lastName fullName').exec((err, article) => {if (err) return next(err);
+    Article.findById(id).populate('creator', 'username nickName email').exec((err, article) => {if (err) return next(err);
     if (!article) return next(new Error('Failed to load article '
             + id));
         req.article = article;
-        console.log('in articleById:', req.article)
+        console.log('in articleById:', req.article.creator.nickName)
         next();
     });
 };
@@ -81,6 +82,8 @@ exports.update = function (req, res) {
     const article = req.article;
     article.title = req.body.title;
     article.content = req.body.content;
+    article.slug = req.body.slug;
+    article.status = req.body.status;
     article.save((err) => {
         if (err) {
             return res.status(400).send({
