@@ -10,24 +10,35 @@ https://frolicking-cobbler-f22a45.netlify.app/
 
 ## TODO
 
+## v0.1
 Public Pages
-- [] Home page
+- Home page
   - 显示用户的profile
   - 显示推荐文章
+- blog 
+  - 文章列表页
+  - 文章详情页
+
+Admin Pages
+- 站点设置
+  - 增加profile 字段，支持markdown编辑
+- 博客文章编辑功能，支持markdown
+
+## v0.2
+
+- 代码重构
+
+## v0.3
+Public Pages
 - [] 文章支持slug   
   - [] About Me page 
   - [] Projects page 
   - [] Services page
   - [] Contact Me
-
 Admin Pages
-- [] 个人profile
-  - 增加profile 字段，支持markdown编辑
-- [] post 编辑功能，
-  - 增加推荐字段
+
+- 博客文章编辑功能，
   - 增加 slug
-
-
 
 ## TAsk
 
