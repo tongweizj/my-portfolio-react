@@ -1,9 +1,10 @@
-﻿const mongoose = require('mongoose');
-const Article = mongoose.model('Article');
-const User = require('mongoose').model('User');
+﻿import mongoose from 'mongoose';
+const { model } = mongoose;
+const Article = model('Article');
+const User = model('User');
 
-//
-function getErrorMessage(err) {
+// 私有函数，不需要导出
+const getErrorMessage = (err) => {
   if (err.errors) {
     for (let errName in err.errors) {
       if (err.errors[errName].message) return err.errors[errName].message;
@@ -11,110 +12,105 @@ function getErrorMessage(err) {
   } else {
     return 'Unknown server error';
   }
-}
-//
-exports.create = function (req, res) {
-  const article = new Article();
-  article.title = req.body.title;
-  article.content = req.body.content;
-  article.slug = req.body.slug;
-  article.status = req.body.status;
-  console.log(req.body);
-  //
-  //
-  User.findOne({ username: req.body.username }, (err, user) => {
-    if (err) {
-      return getErrorMessage(err);
+};
+
+// 1. 创建文章
+export const create = async (req, res) => {
+  try {
+    console.log('收到请求体:', req.body);
+    // 1. 显式解构你需要的字段，绝对不要解构 _id
+    const { title, content, slug, status } = req.body;
+
+    // 2. 创建一个纯净的数据对象，不带任何多余属性
+    const articleData = {
+      title: title || '',
+      content: content || '',
+      slug: slug || `post-${Date.now()}`,
+      status: status || 'draft',
+    };
+
+    const article = new Article(articleData);
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) {
+      return res.status(400).send({ message: 'User not found' });
     }
-    //
-    req.id = user._id;
-    console.log('user._id', req.id);
-  }).then(function () {
-    article.creator = req.id;
-    console.log('req.user._id', req.id);
 
-    article.save((err) => {
-      if (err) {
-        console.log('error', getErrorMessage(err));
+    article.creator = user._id;
+    const savedArticle = await article.save();
 
-        return res.status(400).send({
-          message: getErrorMessage(err),
-        });
-      } else {
-        res.status(200).json(article);
-      }
+    res.status(200).json(savedArticle);
+  } catch (err) {
+    console.error('Mongoose 报错详情:', err);
+    res.status(400).send({
+      message: getErrorMessage(err),
     });
-  });
+  }
 };
-//
-exports.list = function (req, res) {
-  Article.find()
-    .sort('-created')
-    .populate('creator', 'username nickName email')
-    .exec((err, articles) => {
-      if (err) {
-        return res.status(400).send({
-          message: getErrorMessage(err),
-        });
-      } else {
-        res.status(200).json(articles);
-      }
+
+// 2. 列表查询
+export const list = async (req, res) => {
+  try {
+    const articles = await Article.find()
+      .sort('-created')
+      .populate('creator', 'username nickName email');
+    res.status(200).json(articles);
+  } catch (err) {
+    res.status(400).send({
+      message: getErrorMessage(err),
     });
+  }
 };
-//
-exports.articleByID = function (req, res, next, id) {
-  Article.findById(id)
-    .populate('creator', 'username nickName email')
-    .exec((err, article) => {
-      if (err) return next(err);
-      if (!article) return next(new Error('Failed to load article ' + id));
-      req.article = article;
-      console.log('in articleById:', req.article.creator.nickName);
-      next();
-    });
+
+// 3. 中间件：根据 ID 加载文章
+export const articleByID = async (req, res, next, id) => {
+  try {
+    const article = await Article.findById(id).populate('creator', 'username nickName email');
+    if (!article) return next(new Error('Failed to load article ' + id));
+
+    req.article = article;
+    next();
+  } catch (err) {
+    return next(err);
+  }
 };
-//
-exports.read = function (req, res) {
+
+// 4. 读取单篇
+export const read = (req, res) => {
   res.status(200).json(req.article);
 };
-//
-exports.update = function (req, res) {
-  console.log('in update:', req.article);
-  const article = req.article;
-  article.title = req.body.title;
-  article.content = req.body.content;
-  article.slug = req.body.slug;
-  article.status = req.body.status;
-  article.save((err) => {
-    if (err) {
-      return res.status(400).send({
-        message: getErrorMessage(err),
-      });
-    } else {
-      res.status(200).json(article);
-    }
-  });
-};
-//
-exports.delete = function (req, res) {
-  const article = req.article;
-  article.remove((err) => {
-    if (err) {
-      return res.status(400).send({
-        message: getErrorMessage(err),
-      });
-    } else {
-      res.status(200).json(article);
-    }
-  });
-};
-//The hasAuthorization() middleware uses the req.article and req.user objects
-//to verify that the current user is the creator of the current article
-exports.hasAuthorization = function (req, res, next) {
-  console.log('in hasAuthorization - creator: ', req.article.creator);
-  console.log('in hasAuthorization - user: ', req.id);
-  //console.log('in hasAuthorization - user: ',req.user._id)
 
+// 5. 更新文章
+export const update = async (req, res) => {
+  try {
+    const article = req.article;
+    // 使用 Object.assign 批量更新属性
+    Object.assign(article, req.body);
+
+    await article.save();
+    res.status(200).json(article);
+  } catch (err) {
+    res.status(400).send({
+      message: getErrorMessage(err),
+    });
+  }
+};
+
+// 6. 删除文章
+export const deleteArticle = async (req, res) => {
+  try {
+    const article = req.article;
+    await article.deleteOne(); // Mongoose 6+ 建议使用 deleteOne 而不是 remove
+    res.status(200).json(article);
+  } catch (err) {
+    res.status(400).send({
+      message: getErrorMessage(err),
+    });
+  }
+};
+
+// 7. 权限校验中间件
+export const hasAuthorization = (req, res, next) => {
+  // 注意：这里需要确保 req.id 在之前的中间件中已被赋值
   if (req.article.creator.id !== req.id) {
     return res.status(403).send({
       message: 'User is not authorized',

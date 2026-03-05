@@ -1,14 +1,24 @@
-﻿const users = require('../../app/controllers/users.server.controller');
-const articles = require('../../app/controllers/articles.server.controller');
-//
-module.exports = function (app) {
-  app.route('/api/articles').get(articles.list).post(users.requiresLogin, articles.create);
-  //
+﻿// 使用 * as 语法将 users 控制器中所有的命名导出打包到 users 对象中
+import * as users from '../../app/controllers/users.server.controller.js';
+
+import {
+  create,
+  list,
+  articleByID,
+  read,
+  update,
+  deleteArticle,
+  hasAuthorization,
+} from '../controllers/articles.server.controller.js';
+
+export default function (app) {
+  app.route('/api/articles').get(list).post(users.requiresLogin, create);
+
   app
     .route('/api/articles/:articleId')
-    .get(articles.read)
-    .put(users.requiresLogin, articles.hasAuthorization, articles.update)
-    .delete(users.requiresLogin, articles.hasAuthorization, articles.delete);
-  //
-  app.param('articleId', articles.articleByID);
-};
+    .get(read)
+    .put(users.requiresLogin, hasAuthorization, update)
+    .delete(users.requiresLogin, hasAuthorization, deleteArticle);
+
+  app.param('articleId', articleByID);
+}

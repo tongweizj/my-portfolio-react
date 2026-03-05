@@ -1,5 +1,7 @@
-﻿const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+﻿import mongoose from 'mongoose';
+
+const { Schema } = mongoose;
+
 const ArticleSchema = new Schema({
   created: {
     type: Date,
@@ -20,7 +22,17 @@ const ArticleSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User',
   },
-  slug: { type: String, unique: true },
-  status: { type: String, enum: ['draft', 'published'], default: 'draft' },
+  slug: {
+    type: String,
+    unique: true,
+  },
+  status: {
+    type: String,
+    enum: ['draft', 'published'],
+    default: 'draft',
+  },
 });
-mongoose.model('Article', ArticleSchema);
+
+// 注册并导出模型
+const Article = mongoose.model('Article', ArticleSchema);
+export default Article;

@@ -1,9 +1,14 @@
 ﻿// Load the module dependencies:
 //  config.js module and mongoose module
-var config = require('./index'),
-  mongoose = require('mongoose');
+import config from './index.js';
+import mongoose from 'mongoose';
+
+import '../app/models/user.server.model.js';
+import '../app/models/article.server.model.js';
+import '../app/models/site.server.model.js';
+
 // Define the Mongoose configuration method
-module.exports = function () {
+export default function () {
   // Use Mongoose to connect to MongoDB
   const db = mongoose
     .connect(config.db, {
@@ -19,13 +24,6 @@ module.exports = function () {
     .catch((err) => {
       console.log('Error');
     });
-
-  // Load the 'User' model
-  require('../app/models/user.server.model');
-  // Load the 'Article' model
-  require('../app/models/article.server.model');
-  // Return the Mongoose connection instance
-  require('../app/models/site.server.model');
 
   // 3. 定义初始化函数
   async function seedSiteData() {
@@ -49,4 +47,4 @@ module.exports = function () {
     }
   }
   return db;
-};
+}

@@ -1,8 +1,11 @@
-﻿require('dotenv').config(); // 确保加载了变量
+﻿import 'dotenv/config';
 
 const config = {
   port: process.env.PORT || 5000,
   JWT_SECRET: process.env.JWT_SECRET,
+  db: process.env.db,
+  sessionSecret: process.env.sessionSecret,
+  secretKey: process.env.secretKey,
 };
 
-module.exports = config;
+export default config;

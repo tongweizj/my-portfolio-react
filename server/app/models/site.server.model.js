@@ -1,23 +1,23 @@
-﻿// Load the module dependencies
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-//Define a schema
-const Schema = mongoose.Schema;
-//
-// Define a new 'UserSchema'
-var SiteSchema = new Schema({
+﻿import mongoose from 'mongoose';
+
+const { Schema } = mongoose;
+
+// 使用 const 定义 Schema，将变量名改为 SiteSchema（更语义化）
+const SiteSchema = new Schema({
   blogname: String,
   blogdescription: String,
   profile: String,
   project: String,
 });
 
-// Configure the 'UserSchema' to use getters and virtuals when transforming to JSON
+// 配置 Schema
 SiteSchema.set('toJSON', {
   getters: true,
   virtuals: true,
 });
 
-// Create the 'User' model out of the 'UserSchema'
-mongoose.model('Site', SiteSchema);
+// 注册模型
+const Site = mongoose.model('Site', SiteSchema);
+
+// 建议显式导出模型
+export default Site;
