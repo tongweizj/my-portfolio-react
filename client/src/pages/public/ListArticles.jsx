@@ -7,7 +7,7 @@ function ListArticles() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [showLoading, setShowLoading] = useState(true);
-  const apiUrl = "api/api/articles"; // 建议检查路径是否正确
+  const apiUrl = 'api/api/articles'; // 建议检查路径是否正确
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +32,8 @@ function ListArticles() {
       <header className="mb-5">
         <h1 className="fw-bold mb-3">writing</h1>
         <p className="text-secondary">
-          自 2015 年以来，我一直在撰写关于软件开发、设计和科技的文章。以下是按照时间倒序排列的所有文章。
+          自 2015
+          年以来，我一直在撰写关于软件开发、设计和科技的文章。以下是按照时间倒序排列的所有文章。
         </p>
       </header>
 

@@ -136,35 +136,3 @@ You must deploy your site to your Cloud Server using **git**
 
 4. 我的 Profile,`/admin/profile`
 ,个人资料设置（修改头像、简介、密码等）
-
-## 项目结构
-
-```Plaintext
-src/
-├── assets/             # 静态资源：图片、Icons、全局 CSS
-├── components/         # 公用组件 (无状态或通用)
-│   ├── common/         # 按钮、输入框、Loading 加载动画
-│   ├── layout/         # 布局组件：Navbar, Footer, AdminSidebar
-│   └── auth/           # 登录保护高阶组件 (ProtectedRoute)
-├── hooks/              # 自定义 Hooks (例如: useAuth, useFetch)
-├── services/           # API 请求逻辑 (Axios 拦截器等)
-│   ├── articleService.js
-│   └── authService.js
-├── pages/              # 页面级组件 (按 URL 结构划分)
-│   ├── public/         # --- 前台页面 ---
-│   │   ├── Home.jsx           (首页)
-│   │   ├── Posts.jsx       (文章列表)
-│   │   ├── PostsDetail.jsx  (文章详情)
-│   │   ├── About.jsx          (关于我)
-│   ├── auth/
-│   │   ├── Login.jsx          (登录)
-│   │   └── Register.jsx       (注册)
-│   └── admin/          # --- 作者后台页面 ---
-│       ├── Dashboard.jsx      (后台概览/我的文章列表)
-│       ├── Posts.jsx       (文章列表)
-│       ├── PostEditor.jsx  (添加/编辑文章共享此组件)
-│       └── Profile.jsx        (个人资料)
-├── utils/              # 工具函数 (格式化日期等)
-├── App.jsx             # 路由配置中心
-└── main.jsx            # 项目入口
-```

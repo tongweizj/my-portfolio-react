@@ -11,7 +11,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true); // 新增：全局加载状态
 
-  const apiUrl = "/api/signin";
+  const apiUrl = '/api/signin';
 
   // 检查登录状态
   const readCookie = async () => {
@@ -26,7 +26,7 @@ function App() {
       }
     } catch (e) {
       setIsLoading(false);
-      console.log("Not logged in or error:", e);
+      console.log('Not logged in or error:', e);
     }
   };
 
@@ -39,12 +39,12 @@ function App() {
     try {
       const loginData = { auth: { username, password } };
       const res = await axios.post(apiUrl, loginData);
-      
+
       if (res.data.screen !== undefined) {
         navigate('/admin/dashboard');
       }
     } catch (e) {
-      alert("Login failed, please check your credentials.");
+      alert('Login failed, please check your credentials.');
       console.log(e);
     }
   };
@@ -52,33 +52,33 @@ function App() {
   // 如果正在检查 Cookie，显示一个全屏加载，避免表单闪现
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{height: '100vh'}}>
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
         <Spinner animation="border" variant="primary" />
       </div>
     );
   }
 
   return (
-    <div className="App container mt-5" style={{maxWidth: '400px'}}>
-      <Form onSubmit={authenticateUser}> {/* 建议使用 onSubmit */}
+    <div className="App container mt-5" style={{ maxWidth: '400px' }}>
+      <Form onSubmit={authenticateUser}>
+        {' '}
+        {/* 建议使用 onSubmit */}
         <Form.Group className="mb-3">
           <Form.Label>User Name</Form.Label>
-          <Form.Control 
-            type="text" 
-            placeholder="Enter user name" 
-            onChange={e => setUsername(e.target.value)} 
+          <Form.Control
+            type="text"
+            placeholder="Enter user name"
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
-
         <Form.Group className="mb-3">
           <Form.Label>Password</Form.Label>
-          <Form.Control  
-            type="password" 
-            placeholder="Enter password" 
-            onChange={e => setPassword(e.target.value)} 
+          <Form.Control
+            type="password"
+            placeholder="Enter password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-      
         <Button variant="primary" type="submit" className="w-100">
           Login
         </Button>

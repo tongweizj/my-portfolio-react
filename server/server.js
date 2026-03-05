@@ -1,4 +1,4 @@
-﻿// The server.js file is the main file of your Node.js application 
+﻿// The server.js file is the main file of your Node.js application
 // It will load the express.js file as a module to bootstrap your Express application
 //
 //The process.env.NODE_ENV variable is set to the default 'development‘
@@ -7,7 +7,7 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // Load the module dependencies
 var mongoose = require('./config/mongoose'),
-    express = require('./config/express');
+  express = require('./config/express');
 // Create a new Mongoose connection instance
 var db = mongoose();
 // Create a new Express application instance

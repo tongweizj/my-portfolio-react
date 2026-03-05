@@ -12,51 +12,60 @@ function List(props) {
   const [data, setData] = useState([]);
   const [showLoading, setShowLoading] = useState(true);
   const [listError, setListError] = useState(false);
-  const apiUrl = "api/users";
+  const apiUrl = 'api/users';
 
   useEffect(() => {
     const fetchData = async () => {
-      axios.get(apiUrl)
-        .then(result => {
-          console.log('result.data:',result.data)
+      axios
+        .get(apiUrl)
+        .then((result) => {
+          console.log('result.data:', result.data);
           //check if the user has logged in
-          if(result.data.screen !== 'auth')
-          {
-            
-            console.log('data in if:', result.data )
+          if (result.data.screen !== 'auth') {
+            console.log('data in if:', result.data);
             setData(result.data);
             setShowLoading(false);
           }
-        }).catch((error) => {
-          console.log('error in fetchData:', error)
-          setListError(true)
+        })
+        .catch((error) => {
+          console.log('error in fetchData:', error);
+          setListError(true);
         });
-      };  
+    };
     fetchData();
   }, []);
 
   const showDetail = (id) => {
-    
     navigate('/show/' + id);
-  }
+  };
 
   return (
     <div>
-      { data.length !== 0
-        ? <div>
-          {showLoading && <Spinner animation="border" role="status">
-            <span className="sr-only">Loading...</span>
-          </Spinner> }
+      {data.length !== 0 ? (
+        <div>
+          {showLoading && (
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          )}
           <ListGroup>
             {data.map((item, idx) => (
-              <ListGroup.Item key={idx} action onClick={() => { showDetail(item._id) }}>{item.username}</ListGroup.Item>
+              <ListGroup.Item
+                key={idx}
+                action
+                onClick={() => {
+                  showDetail(item._id);
+                }}
+              >
+                {item.username}
+              </ListGroup.Item>
             ))}
           </ListGroup>
         </div>
-        : < Login />
-      }
+      ) : (
+        <Login />
+      )}
     </div>
-
   );
 }
 //
