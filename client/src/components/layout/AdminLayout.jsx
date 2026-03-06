@@ -33,21 +33,19 @@ const AdminLayout = ({ children }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // 处理退出登录
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (window.confirm('确定要退出登录吗？')) {
-      // 这里可以添加实际的退出逻辑
+      try {
+        await axios.get('/api/api/auth/signout');
+
+        navigate('/login');
+      } catch (e) {
+        console.log(e);
+      }
       console.log('用户退出登录');
     }
   };
-  const deleteCookie = async () => {
-    try {
-      await axios.get('/api/signout');
 
-      navigate('/auth/admin/login');
-    } catch (e) {
-      console.log(e);
-    }
-  };
   // 切换侧边栏
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -84,7 +82,7 @@ const AdminLayout = ({ children }) => {
                   <i className="bi bi-person me-2"></i> profile
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item className="text-danger" onClick={deleteCookie}>
+                <Dropdown.Item className="text-danger" onClick={handleLogout}>
                   <i className="bi bi-box-arrow-right me-2"></i> Logout
                 </Dropdown.Item>
               </Dropdown.Menu>

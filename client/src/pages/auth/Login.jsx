@@ -11,12 +11,12 @@ function App() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true); // 新增：全局加载状态
 
-  const apiUrl = '/api/signin';
+  const apiUrl = '/api/api/auth/login';
 
   // 检查登录状态
   const readCookie = async () => {
     try {
-      const res = await axios.get('/api/read_cookie');
+      const res = await axios.get('/api/api/users/me');
       if (res.data.screen !== undefined && res.data.screen !== 'auth') {
         // 如果已经是登录状态，直接跳转
         navigate('/admin/dashboard', { replace: true });

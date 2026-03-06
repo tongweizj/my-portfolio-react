@@ -11,7 +11,7 @@ export function useAuth() {
     // 关键：因为使用 Cookie，必须设置 withCredentials
     const checkAuth = async () => {
       try {
-        const response = await axios.get('/api/welcome', {
+        const response = await axios.get('/api/api/users/me', {
           withCredentials: true, // 允许跨域发送 Cookie
         });
 

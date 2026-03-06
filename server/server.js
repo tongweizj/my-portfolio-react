@@ -3,7 +3,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // 加载模块依赖
 import configureMongoose from './config/mongoose.js';
-import configureExpress from './config/express.js';
+import configureExpress from './app.js';
 
 // 1. 初始化 Mongoose 连接并加载所有模型
 // 注意：必须先执行这一步，否则后续路由中的 mongoose.model() 会找不到 Schema

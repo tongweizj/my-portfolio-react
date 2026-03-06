@@ -3,9 +3,9 @@
 import config from './index.js';
 import mongoose from 'mongoose';
 
-import '../app/models/user.server.model.js';
-import '../app/models/article.server.model.js';
-import '../app/models/site.server.model.js';
+import '../models/User.js';
+import '../models/Article.js';
+import '../models/Site.js';
 
 // Define the Mongoose configuration method
 export default function () {

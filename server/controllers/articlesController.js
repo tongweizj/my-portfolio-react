@@ -17,7 +17,6 @@ const getErrorMessage = (err) => {
 // 1. 创建文章
 export const create = async (req, res) => {
   try {
-    console.log('收到请求体:', req.body);
     // 1. 显式解构你需要的字段，绝对不要解构 _id
     const { title, content, slug, status } = req.body;
 

@@ -5,7 +5,7 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 // Load the module dependencies
-import config from './index.js';
+import config from './config/index.js';
 import express from 'express';
 import morgan from 'morgan';
 import compress from 'compression';
@@ -15,11 +15,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import ejs from 'ejs';
-
-import indexRoutes from '../app/routes/index.server.routes.js';
-import userRoutes from '../app/routes/users.server.routes.js';
-import articleRoutes from '../app/routes/articles.server.routes.js';
-import siteRoutes from '../app/routes/site.server.routes.js';
+import apiRoutes from './routes/index.js';
 
 export default function () {
   //Create the Express application object
@@ -59,15 +55,25 @@ export default function () {
   );
   //Configure Express to use EJS module as the default template engine
   // Set the application view engine and 'views' folder
-  app.set('views', join(__dirname, './app/views'));
-  app.engine('html', ejs.renderFile);
-  app.set('view engine', 'html');
+  app.set('views', join(__dirname, 'views'));
+  app.set('view engine', 'ejs');
   //bootstrap the app using the controller and routing modules
   // Load the routing files
-  indexRoutes(app);
-  userRoutes(app);
-  articleRoutes(app);
-  siteRoutes(app);
+
+  app.use('/api', apiRoutes);
+
+  // 全局错误处理中间件 (必须有 4 个参数)
+  app.use((err, req, res, next) => {
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || 'error';
+
+    res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+      // 如果是开发环境，可以把堆栈信息也传给前端方便调试
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    });
+  });
   //The express.static() middleware takes one argument
   //to determine the location of the static folder
   //Configure static file serving

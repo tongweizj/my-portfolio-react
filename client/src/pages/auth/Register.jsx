@@ -18,7 +18,7 @@ function Register(props) {
   });
 
   const [showLoading, setShowLoading] = useState(false);
-  const apiUrl = 'api/';
+  const apiUrl = '/api/api/users';
 
   const saveUser = (e) => {
     setShowLoading(true);
