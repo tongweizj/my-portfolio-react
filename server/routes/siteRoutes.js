@@ -1,8 +1,8 @@
 ﻿import express from 'express';
 import * as site from '../controllers/siteController.js';
-import * as users from '../controllers/usersController.js';
+import * as auth from '../middleware/authMiddleware.js';
 const router = express.Router();
 
-router.route('/').get(site.read).put(users.requiresLogin, site.update);
+router.route('/').get(site.read).put(auth.protect, site.update);
 
 export default router;

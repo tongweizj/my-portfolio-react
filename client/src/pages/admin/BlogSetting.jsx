@@ -26,7 +26,7 @@ function BlogSetting(props) {
         setShowLoading(true);
         const result = await axios.get('/api/api/site/');
         // 确保合并默认值防止 SimpleMDE 因为 null 报错
-        setSiteData((prev) => ({ ...prev, ...result.data }));
+        setSiteData((prev) => ({ ...prev, ...result.data.data }));
       } catch (error) {
         console.error('加载数据失败:', error);
       } finally {

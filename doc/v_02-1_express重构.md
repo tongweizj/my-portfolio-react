@@ -109,11 +109,3 @@ module.exports = (fn) => {
 更新站点信息,/api/site,PUT,管理员修改站点全局配置
 获取联系消息,/api/site/messages,GET,如果你有“联系我们”的留言功能
 提交联系留言,/api/site/messages,POST,用户在前台提交咨询表单
-
-### 🚀 你的下一步行动建议
-
-1. **第一步：创建文件夹结构**。先按照上面的列表把空的文件夹建好。
-2. **第二步：拆分路由**。把你现在的 `app.js` 里那一长串 `app.get` 或 `app.post` 按照功能（Auth, Post, Todo）搬运到 `routes/` 目录下。
-3. **第三步：迁移逻辑**。将原本写在路由回调里的具体代码，搬运到对应的 `controllers/` 文件中。
-
-**你需要我帮你写一个 `catchAsync` 工具函数的标准写法，来帮你删掉代码中 50% 的 `try-catch` 块吗？**

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
-import Button from 'react-bootstrap/Button';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 // this component is used to show a single article
 function Post(props) {
-  let navigate = useNavigate();
   let { id } = useParams();
   //
   const [data, setData] = useState({});
@@ -18,8 +16,8 @@ function Post(props) {
     setShowLoading(false);
     const fetchData = async () => {
       const result = await axios(apiUrl);
-      console.log('result:', result.data.creator.nickName);
-      setData(result.data);
+      console.log('result:', result.data.data);
+      setData(result.data.data);
       setShowLoading(false);
     };
 

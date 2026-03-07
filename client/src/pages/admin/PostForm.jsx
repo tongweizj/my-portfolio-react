@@ -39,7 +39,7 @@ function PostForm(props) {
       axios
         .get(`${apiUrl}/${id}`)
         .then((res) => {
-          setPost(res.data);
+          setPost(res.data.data);
           setFetching(false);
         })
         .catch((err) => {

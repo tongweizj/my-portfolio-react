@@ -13,7 +13,7 @@ function PostsList(props) {
     const fetchData = async () => {
       try {
         const result = await axios.get(apiUrl);
-        setData(result.data);
+        setData(result.data.data);
         setShowLoading(false);
       } catch (error) {
         console.error('获取文章列表失败:', error);

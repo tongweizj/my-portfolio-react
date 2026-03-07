@@ -17,7 +17,8 @@ function App() {
   const readCookie = async () => {
     try {
       const res = await axios.get('/api/api/users/me');
-      if (res.data.screen !== undefined && res.data.screen !== 'auth') {
+      console.log(`login:`, res.data);
+      if (res.data.code == 200) {
         // 如果已经是登录状态，直接跳转
         navigate('/admin/dashboard', { replace: true });
       } else {

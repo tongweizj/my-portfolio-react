@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
 // Layout
-import AdminLayout from './components/layout/AdminLayout';
-import PublicLayout from './components/layout/PublicLayout';
+import AdminLayout from './layout/AdminLayout';
+import PublicLayout from './layout/PublicLayout';
 
 // public
 import Home from './pages/public/Home';

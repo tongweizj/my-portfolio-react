@@ -1,145 +1,93 @@
 ﻿import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../config/index.js';
 import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/AppError.js';
+import { sendResponse } from '../utils/response.js';
 
 const User = mongoose.model('User');
-const jwtExpirySeconds = 3600 * 60 * 24;
 const jwtKey = config.secretKey;
 
-// 错误处理私有函数
-const getErrorMessage = (err) => {
-  let message = '';
-  if (err.code) {
-    switch (err.code) {
-      case 11000:
-      case 11001:
-        message = 'Username already exists';
-        break;
-      default:
-        message = 'Something went wrong';
-    }
-  } else {
-    for (const errName in err.errors) {
-      if (err.errors[errName].message) message = err.errors[errName].message;
-    }
+// --- 中间件部分 ---
+
+// 1. 根据 ID 加载用户 (参数预载)
+export const userByID = catchAsync(async (req, res, next, id) => {
+  const user = await User.findById(id);
+  if (!user) {
+    return next(new AppError(`未找到 ID 为 ${id} 的用户`, 404));
   }
-  return message;
+  req.user = user;
+  next();
+});
+
+// 2. 权限拦截中间件 (重构版)
+export const requiresLogin = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return next(new AppError('请先登录', 401));
+  }
+
+  try {
+    const payload = jwt.verify(token, jwtKey);
+    req.auth = payload; // 将解密后的用户信息挂载到 req.auth
+    next();
+  } catch (e) {
+    return next(new AppError('登录令牌无效或已过期', 401));
+  }
 };
 
-// 1. 创建用户 (不再使用 export default，改为命名导出)
-// export const create = async (req, res, next) => {
-//   try {
-//     const user = new User(req.body);
-//     const savedUser = await user.save();
-//     res.json(savedUser);
-//   } catch (err) {
-//     // 传递给 Express 统一错误处理中间件
-//     return next(err);
-//   }
-// };
+// --- 控制器部分 ---
 
+// 创建用户
 export const create = catchAsync(async (req, res, next) => {
   const user = new User(req.body);
   const savedUser = await user.save();
 
-  if (!savedUser) {
-    // 配合自定义错误类使用（可选）
-    return next(new AppError('Fail to create user', 404));
-  }
-
-  res.json(savedUser);
+  // 注意：Mongoose save 失败通常会抛出错误，被 catchAsync 捕获
+  // 这里处理成功逻辑即可
+  return sendResponse(res, 201, '用户创建成功', savedUser);
 });
 
-// 2. 获取用户列表
-export const list = async (req, res, next) => {
-  try {
-    const users = await User.find({});
-    res.json(users);
-  } catch (err) {
-    return next(err);
-  }
-};
+// 获取用户列表
+export const list = catchAsync(async (req, res, next) => {
+  const users = await User.find({}).select('-password'); // 列表通常不返回密码
+  return sendResponse(res, 200, '获取用户列表成功', users);
+});
 
-// 3. 读取当前用户
+// 读取当前用户 (配合 userByID 使用)
 export const read = (req, res) => {
-  res.json(req.user);
+  // req.user 已经由 userByID 准备好了
+  return sendResponse(res, 200, '读取用户信息成功', req.user);
 };
 
-// 4. 根据 ID 加载用户 (中间件)
-export const userByID = async (req, res, next, id) => {
-  try {
-    const user = await User.findOne({ _id: id });
-    if (!user) return next(new Error('Failed to load user ' + id));
-    req.user = user;
-    next();
-  } catch (err) {
-    return next(err);
-  }
-};
+// 更新用户
+export const update = catchAsync(async (req, res, next) => {
+  // 使用 findByIdAndUpdate，并开启 runValidators 以确保更新也经过模型验证
+  const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+    new: true,
+    runValidators: true,
+  }).select('-password');
 
-// 5. 更新用户
-export const update = async (req, res, next) => {
-  try {
-    console.log(req.body);
-    // 使用 findByIdAndUpdate 的最新 Promise 写法
-    const user = await User.findByIdAndUpdate(req.user.id, req.body, { new: true });
-    res.json(user);
-  } catch (err) {
-    console.log(err);
-    return next(err);
-  }
-};
+  return sendResponse(res, 200, '用户信息更新成功', user);
+});
 
-// 6. 删除用户
-export const deleteUser = async (req, res, next) => {
-  try {
-    const user = await User.findByIdAndDelete(req.user.id);
-    res.json(user);
-  } catch (err) {
-    return next(err);
-  }
-};
+// 删除用户
+export const deleteUser = catchAsync(async (req, res, next) => {
+  await User.findByIdAndDelete(req.user.id);
+  return sendResponse(res, 200, '用户删除成功', null);
+});
 
-// 10. 检查是否已登录
-export const isSignedIn = (req, res) => {
+// 检查是否已登录 (用于前端路由守卫)
+export const isSignedIn = (req, res, next) => {
   const token = req.cookies.token;
-  if (!token) return res.send({ screen: 'auth' }).end();
+  if (!token) {
+    return sendResponse(res, 200, '未登录', { screen: 'auth' });
+  }
 
   try {
     const payload = jwt.verify(token, jwtKey);
-    res.json(payload);
+    return sendResponse(res, 200, '已登录', payload);
   } catch (e) {
-    return res.status(401).end();
+    return next(new AppError('登录状态失效', 401));
   }
 };
-
-// // 8. 欢迎页 (验证 Token)
-// export const welcome = (req, res) => {
-//   const token = req.cookies.token;
-//   if (!token) return res.status(401).end();
-
-//   try {
-//     const payload = jwt.verify(token, jwtKey);
-//     res.json(payload);
-//   } catch (e) {
-//     const status = e instanceof jwt.JsonWebTokenError ? 401 : 400;
-//     return res.status(status).end();
-//   }
-// };
-
-// // 11. 权限拦截中间件
-// export const requiresLogin = (req, res, next) => {
-//   const token = req.cookies.token;
-//   if (!token) return res.send({ screen: 'auth' }).end();
-
-//   try {
-//     const payload = jwt.verify(token, jwtKey);
-//     req.id = payload.id;
-//     next();
-//   } catch (e) {
-//     return res.status(401).end();
-//   }
-// };

@@ -14,8 +14,8 @@ import methodOverride from 'method-override';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import ejs from 'ejs';
 import apiRoutes from './routes/index.js';
+import { globalErrorHandler } from './middleware/errorMiddleware.js';
 
 export default function () {
   //Create the Express application object
@@ -61,22 +61,13 @@ export default function () {
   // Load the routing files
 
   app.use('/api', apiRoutes);
-
-  // 全局错误处理中间件 (必须有 4 个参数)
-  app.use((err, req, res, next) => {
-    err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'error';
-
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-      // 如果是开发环境，可以把堆栈信息也传给前端方便调试
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+  // 处理未定义路由（404）
+  app.all('*', (req, res, next) => {
+    const err = new Error(`找不到路径: ${req.originalUrl}`);
+    err.statusCode = 404;
+    next(err); // 这里的 next(err) 也会流向下面的处理器
   });
-  //The express.static() middleware takes one argument
-  //to determine the location of the static folder
-  //Configure static file serving
+  app.use(globalErrorHandler);
   app.use(express.static(join(__dirname, './public')));
   return app;
 }

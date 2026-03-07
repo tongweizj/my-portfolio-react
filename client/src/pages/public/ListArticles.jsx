@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
+import { getArticles } from '../../features/articles/articleApi'
 
 function ListArticles() {
   const navigate = useNavigate();
@@ -12,7 +13,9 @@ function ListArticles() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get(apiUrl);
+        // const result = await axios.get(apiUrl);
+        const result = await getArticles();
+        console.log(`articles: ${result.data}`)
         setData(result.data);
       } catch (error) {
         console.error('Error fetching data:', error);

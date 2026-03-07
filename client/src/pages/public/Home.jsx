@@ -16,7 +16,7 @@ function Home(props) {
         setShowLoading(true);
         const apiUrl = '/api/api/site/';
         const result = await axios.get(apiUrl);
-        setSiteData(result.data);
+        setSiteData(result.data.data);
         console.log('siteData:', siteData);
       } catch (error) {
         console.error('加载数据失败:', error);

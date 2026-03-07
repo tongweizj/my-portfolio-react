@@ -23,7 +23,4 @@ router
 // 设置参数拦截
 router.param('userId', users.userByID);
 
-// 受保护页面
-// router.get('/welcome', users.welcome);
-
 export default router;
